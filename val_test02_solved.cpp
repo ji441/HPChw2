@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-// g++ -std=c++11 -O0 val_test02.cpp -o val2res -g && valgrind --leak-check=full ./val2res
+// g++ -g -std=c++11 -O3 val_test02_solved.cpp -o val2res && valgrind --leak-check=full --track-origins=yes ./val2res
 
 void junk_data();
 int main();
@@ -30,20 +30,20 @@ int main()
 //    19 May 2011
 //
 {
-  cout << "\n";
-  cout << "TEST02:\n";
-  cout << "  C++ version\n";
-  cout << "  A sample code for analysis by VALGRIND.\n";
+    cout << "\n";
+    cout << "TEST02:\n";
+    cout << "  C++ version\n";
+    cout << "  A sample code for analysis by VALGRIND.\n";
 
-  junk_data();
-  //
-  //  Terminate.
-  //
-  cout << "\n";
-  cout << "TEST02\n";
-  cout << "  Normal end of execution.\n";
+    junk_data();
+    //
+    //  Terminate.
+    //
+    cout << "\n";
+    cout << "TEST02\n";
+    cout << "  Normal end of execution.\n";
 
-  return 0;
+    return 0;
 }
 //****************************************************************************80
 
@@ -72,40 +72,40 @@ void junk_data()
 //    18 May 2011
 //
 {
-  int i;
-  int *x;
+    int i;
+    int *x;
 
-  x = new int[10];
-  //
-  //  X = { 0, 1, 2, 3, 4, ?a, ?b, ?c, ?d, ?e }.
-  //
-  for (i = 0; i < 5; i++)
-  {
-    x[i] = i;
-  }
-  //
-  //  Copy some values.
-  //  X = { 0, 1, ?c, 3, 4, ?b, ?b, ?c, ?d, ?e }.
-  //
-  x[2] = x[7];
-  x[5] = x[6];
-  //
-  //  Modify some uninitialized entries.
-  //  Memcheck doesn't seem to care about this.
-  //
-  for (i = 0; i < 10; i++)
-  {
-    x[i] = 2 * x[i];
-  }
-  //
-  //  Print X.
-  //
-  for (i = 0; i < 10; i++)
-  {
-    cout << "  " << i << "  " << x[i] << "\n";
-  }
+    x = new int[10];
+    //
+    //  X = { 0, 1, 2, 3, 4, ?a, ?b, ?c, ?d, ?e }.
+    //
+    for (i = 0; i < 10; i++)
+    {
+        x[i] = i;
+    }
+    //
+    //  Copy some values.
+    //  X = { 0, 1, ?c, 3, 4, ?b, ?b, ?c, ?d, ?e }.
+    //
+    x[2] = x[7];
+    x[5] = x[6];
+    //
+    //  Modify some uninitialized entries.
+    //  Memcheck doesn't seem to care about this.
+    //
+    for (i = 0; i < 10; i++)
+    {
+        x[i] = 2 * x[i];
+    }
+    //
+    //  Print X.
+    //
+    for (i = 0; i < 10; i++)
+    {
+        cout << "  " << i << "  " << x[i] << "\n";
+    }
 
-  delete[] x;
+    delete[] x;
 
-  return;
+    return;
 }

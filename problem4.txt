@@ -1,0 +1,109 @@
+part a) result of running without optimization flags:
+
+basic operation results:
+2.093987 seconds
+6.910506 cycles/eval
+0.955036 Gflop/s
+
+sqrt function results:
+3.769770 seconds
+12.440562 cycles/eval
+0.530520 Gflop/s
+
+sin function results:
+41.337091 seconds
+136.413386 cycles/eval
+0.048382 Gflop/s
+from the result latency of sin and sqrt operation is much higher than the mult-add operation
+
+result of running with provided optimization flags:
+
+mult-add function results:
+2.092969 seconds
+6.907124 cycles/eval
+0.955509 Gflop/s
+
+
+sqrt function results:
+3.769181 seconds
+12.438638 cycles/eval
+0.530602 Gflop/s
+
+sin function results:
+41.342220 seconds
+136.429660 cycles/eval
+0.048377 Gflop/s
+
+ so from the result we can see that the vectorize flags does not help, which is true since the file mentioned that "By design, this computation is such that only one fused-multiply-accumulate
+instruction can execute at one time i.e. this computation cannot be vectorized or pipelined."
+
+part b): results are:
+time = 2.093255
+flop-rate = 3.821618 Gflop/s
+
+time = 4.186780
+flop-rate = 1.910761 Gflop/s
+
+time = 4.186088
+flop-rate = 1.911080 Gflop/s
+
+since we area only using one AVX FMA instruction to execute at once, the processor cannot use multiple execution units, so it is slower than the implicit unroll of the algorithm.
+
+part c): when M = 1:
+time = 2.093284
+flop-rate = 3.821536 Gflop/s
+
+time = 4.186824
+flop-rate = 1.910742 Gflop/s
+
+time = 4.186306
+flop-rate = 1.910977 Gflop/s same with part b) which is expected.
+
+when M = 4:
+time = 11.689107
+flop-rate = 2.737567 Gflop/s
+
+time = 4.186785
+flop-rate = 7.643026 Gflop/s
+
+time = 4.185877
+flop-rate = 7.644705 Gflop/s
+
+when M = 8:
+time = 48.146892
+flop-rate = 1.329252 Gflop/s
+
+time = 6.698129
+flop-rate = 9.554871 Gflop/s
+
+time = 6.698027
+flop-rate = 9.555018 Gflop/s
+
+when M = 12: it become to decrease! lets try M = 10
+time = 59.027998
+flop-rate = 1.626337 Gflop/s
+
+time = 10.368515
+flop-rate = 9.258742 Gflop/s
+
+time = 10.370769
+flop-rate = 9.256763 Gflop/s
+
+when M = 10:
+time = 51.080266
+flop-rate = 1.566159 Gflop/s
+
+time = 8.509432
+flop-rate = 9.401305 Gflop/s
+
+time = 8.508476
+flop-rate = 9.402362 Gflop/s
+
+so the optimal M is 8 for my CPU, 
+which is AMD OPETRON 6272(I am using the cims crunchy 1 server which consists of 4 of this CPU)
+
+
+
+
+
+
